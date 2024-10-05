@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunrise Bakery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+            -webkit-user-select: none; /* 禁用文字選取 */
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        header {
+            background-color: #ffcc00;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3em;
+            color: #333;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 400px;
+            background-image: url('attachment-Sunrise-Bakery-Coffee-Shop1.jpg'); /* 替換為你的主頁大圖 */
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 20px;
+        }
+
+        .intro {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .intro h2 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .intro p {
+            font-size: 1.2em;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .carousel {
+            position: relative;
+            max-width: 800px;
+            margin: 40px auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-images {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-images img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .carousel-buttons {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .carousel-buttons button {
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 1.5em;
+        }
+
+        .carousel-buttons button:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 1em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+
+            .main-image {
+                height: 300px;
+            }
+
+            .carousel-images img {
+                height: 300px;
+            }
+
+            .intro h2 {
+                font-size: 2em;
+            }
+
+            .intro p {
+                font-size: 1em;
+            }
+
+            footer {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .main-image {
+                height: 200px;
+            }
+
+            .carousel-images img {
+                height: 200px;
+            }
+
+            .intro h2 {
+                font-size: 1.8em;
+            }
+
+            .intro p {
+                font-size: 0.9em;
+            }
+
+            footer {
+                padding: 10px;
+            }
+
+            footer p {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Sunrise Bakery</h1>
+    </header>
+
+    <!-- 主頁大圖 -->
+    <div class="main-image"></div>
+
+    <!-- 文章描述部分 -->
+    <section class="intro">
+        <h2>Welcome to Sunrise Bakery</h2>
+        <p>At Sunrise Bakery, we believe in starting your day with the finest, freshest baked goods. From crispy croissants to soft sourdough, we offer a range of breads baked to perfection every day.</p>
+    </section>
+
+    <!-- 商品圖片輪播 -->
+    <div class="carousel">
+        <div class="carousel-images">
+            <img src="product1.jpg" alt="Golden Croissant">
+            <img src="product2.jpg" alt="Classic Sourdough">
+            <img src="product3.jpg" alt="Blueberry Muffin">
+        </div>
+        <div class="carousel-buttons">
+            <button id="prevBtn">&#10094;</button>
+            <button id="nextBtn">&#10095;</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>Visit us at 123 Sunshine Blvd, or call (123) 456-7890</p>
+        <p>&copy; 2024 Sunrise Bakery. All rights reserved. No part of this website may be reproduced or copied without written permission.</p>
+    </footer>
+
+    <script>
+        const images = document.querySelector('.carousel-images');
+        const totalImages = images.children.length;
+        let index = 0;
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            index = (index + 1) % totalImages;
+            images.style.transform = `translateX(-${index * 100}%)`;
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            index = (index - 1 + totalImages) % totalImages;
+            images.style.transform = `translateX(-${index * 100}%)`;
+        });
+
+        // 禁用右鍵功能
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+    </script>
+
+</body>
+</html>
