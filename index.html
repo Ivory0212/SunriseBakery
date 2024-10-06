@@ -1,224 +1,578 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- 元信息 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sunrise Bakery</title>
+    <title>Sunrise Bakery & Coffee Shop</title>
+
+    <!-- 添加 Favicon -->
+    <link rel="icon" href="sunrise-logo.png" type="image/png">
+
+    <!-- SimpleLightbox CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.12.1/simple-lightbox.min.css" rel="stylesheet">
+
+    <!-- Iconify Script -->
+    <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+
+    <!-- 自定义 CSS -->
     <style>
+        /* 通用样式 */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f8f8f8;
             color: #333;
-            -webkit-user-select: none; /* 禁用文字選取 */
+            overflow-x: hidden;
+            -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
         }
 
+        /* 头部样式 */
         header {
-            background-color: #ffcc00;
+            background-color: #fcb849;
             padding: 20px;
             text-align: center;
+            width: calc(100% - 250px); /* 修改为250px */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            position: fixed;
+            top: 0;
+            left: 250px; /* 修改为250px */
+            z-index: 1000;
+            transition: left 0.3s ease, width 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        header.expanded {
+            width: 100%;
+            left: 0;
+        }
+
+        header .logo {
+            width: 80px;
+            height: auto;
         }
 
         header h1 {
             margin: 0;
-            font-size: 3em;
+            font-size: 2em;
             color: #333;
         }
 
-        .main-image {
-            width: 100%;
-            height: 400px;
-            background-image: url('attachment-Sunrise-Bakery-Coffee-Shop1.jpg'); /* 替換為你的主頁大圖 */
-            background-size: cover;
-            background-position: center;
+        /* 侧边栏样式 */
+        .sidebar {
+            width: 250px; /* 确认侧边栏宽度为250px */
+            background-color: #2d2d2d;
+            color: white;
+            height: 100vh;
+            padding: 100px 15px 15px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            box-sizing: border-box;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 999;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
             margin-bottom: 20px;
         }
 
-        .intro {
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar ul li a:hover {
+            color: #fcb849;
+            background-color: #444;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        /* 侧边栏收起按钮 */
+        .sidebar-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #fcb849;
+            border: none;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+            transition: transform 0.3s ease;
+        }
+
+        /* 商品轮播区样式 */
+        .product-carousel-section {
+            padding: 140px 20px 20px; /* 确保内容不被 header 遮挡 */
+            margin-left: 250px; /* 修改为与侧边栏一致 */
+            transition: margin-left 0.3s ease;
+        }
+
+        .product-carousel-section.expanded {
+            margin-left: 20px;
+        }
+
+        /* 限制 h2 文本宽度并居中 */
+        .product-carousel-section h2.intro-text {
+            max-width: 800px;
+            margin: 0 auto 20px;
             text-align: center;
-            padding: 40px 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .intro h2 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .intro p {
-            font-size: 1.2em;
-            color: #666;
             line-height: 1.6;
+            padding: 0 20px;
         }
 
-        .carousel {
-            position: relative;
-            max-width: 800px;
-            margin: 40px auto;
+        /* 轮播包装器 */
+        .carousel-wrapper {
             overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: calc((200px + 20px) * 3 - 20px); /* 显示3个卡片 */
+            position: relative;
+            margin: 0 auto; /* 居中显示 */
         }
 
-        .carousel-images {
+        /* 商品轮播容器 */
+        .product-carousel {
             display: flex;
             transition: transform 0.5s ease-in-out;
         }
 
-        .carousel-images img {
+        /* 图片卡片 */
+        .product-item {
+            flex: 0 0 auto;
+            width: 200px;
+            margin-right: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .product-item img {
             width: 100%;
-            height: 400px;
+            height: 100%;
+            border-radius: 10px;
             object-fit: cover;
         }
 
-        .carousel-buttons {
+        /* 导航按钮 */
+        .carousel-btn {
             position: absolute;
             top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
             transform: translateY(-50%);
+            background-color: rgba(255,255,255,0.7);
+            border: none;
+            cursor: pointer;
+            font-size: 2em;
+            padding: 10px;
+            z-index: 100;
         }
 
-        .carousel-buttons button {
-            background-color: rgba(255, 255, 255, 0.7);
-            border: none;
-            padding: 10px;
-            cursor: pointer;
+        .prev-btn {
+            left: 0;
+        }
+
+        .next-btn {
+            right: 0;
+        }
+
+        /* 分店卡片区样式 */
+        .carousel-container {
+            padding: 20px 20px 20px;
+            position: relative;
+            width: calc(100% - 250px); /* 修改为250px */
+            margin-left: 250px; /* 修改为250px */
+            overflow-x: hidden;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+
+        .carousel-container.expanded {
+            margin-left: 20px;
+            width: calc(100% - 40px);
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            gap: 20px;
+            justify-content: center; /* 使少量卡片也置中显示 */
+            flex-wrap: wrap; /* 让卡片内容根据可用空间换行 */
+        }
+
+        .branch-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            flex: 1 1 auto;
+            min-width: 400px;
+            max-width: 500px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .branch-card h2 {
+            color: #fcb849;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .branch-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        .location {
+            margin-bottom: 15px;
+        }
+
+        .location p {
+            font-size: 1em;
+            line-height: 1.4;
+        }
+
+        .hours p {
+            font-size: 1em;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .menu-gallery {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding: 20px 0;
+        }
+
+        .menu-image {
+            width: 150px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+
+        .menu-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* 底部样式 */
+        footer {
+            background-color: #444;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9em;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        footer .social-icons {
+            margin-top: 10px;
+        }
+
+        footer .social-icons a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
             font-size: 1.5em;
         }
 
-        .carousel-buttons button:hover {
-            background-color: rgba(255, 255, 255, 1);
+        footer .social-icons a:hover {
+            color: #fcb849;
         }
 
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-
-        footer p {
-            margin: 0;
-            font-size: 1em;
-        }
-
+        /* 响应式设计 */
         @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.5em;
+            .sidebar {
+                transform: translateX(-100%);
             }
 
-            .main-image {
-                height: 300px;
+            header {
+                width: 100%;
+                left: 0;
             }
 
-            .carousel-images img {
-                height: 300px;
+            .carousel-container,
+            .product-carousel-section {
+                margin-left: 20px;
+                width: calc(100% - 40px);
+                padding: 80px 15px 15px;
             }
 
-            .intro h2 {
-                font-size: 2em;
+            .branch-card {
+                width: 100%;
             }
 
-            .intro p {
-                font-size: 1em;
+            .sidebar-toggle {
+                top: 20px;
+                left: 20px;
+                display: block;
             }
 
-            footer {
-                padding: 10px;
+            /* 调整为显示2个卡片 */
+            .product-item {
+                width: 150px;
+            }
+
+            .carousel-wrapper {
+                width: calc((150px + 20px) * 2 - 20px);
             }
         }
 
         @media (max-width: 480px) {
-            header h1 {
-                font-size: 2em;
+            /* 调整为显示1个卡片 */
+            .product-item {
+                width: 100px;
             }
 
-            .main-image {
-                height: 200px;
+            .carousel-wrapper {
+                width: 100px;
             }
 
-            .carousel-images img {
-                height: 200px;
-            }
-
-            .intro h2 {
-                font-size: 1.8em;
-            }
-
-            .intro p {
-                font-size: 0.9em;
-            }
-
-            footer {
-                padding: 10px;
-            }
-
-            footer p {
-                font-size: 0.9em;
+            /* 调整 h2 的样式 */
+            .product-carousel-section h2.intro-text {
+                max-width: 90%;
+                padding: 0 10px;
             }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Sunrise Bakery</h1>
+    <!-- 头部 -->
+    <header id="mainHeader">
+        <img src="sunrise-logo.png" alt="Sunrise Bakery Logo" class="logo">
+        <h1>Sunrise Bakery & Coffee Shop</h1>
+        <!-- 社交媒体图标 -->
+        <div class="social-icons">
+            <h1>
+                <a href="https://www.facebook.com/profile.php?id=61554905052116" target="_blank" aria-label="Facebook">
+                    <span class="iconify" data-icon="mdi:facebook" style="font-size: 1.5em; color: blue;"></span>
+                </a>
+            </h1>
+        </div>
     </header>
 
-    <!-- 主頁大圖 -->
-    <div class="main-image"></div>
+    <!-- 侧边栏 -->
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="#new-bedford"><span class="iconify" data-icon="mdi:storefront"></span> New Bedford</a></li>
+            <li><a href="#dartmouth"><span class="iconify" data-icon="mdi:storefront-outline"></span> Dartmouth</a></li>
+        </ul>
+    </div>
 
-    <!-- 文章描述部分 -->
-    <section class="intro">
-        <h2>Welcome to Sunrise Bakery</h2>
-        <p>At Sunrise Bakery, we believe in starting your day with the finest, freshest baked goods. From crispy croissants to soft sourdough, we offer a range of breads baked to perfection every day.</p>
+    <!-- 侧边栏收起按钮 -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <span class="iconify" data-icon="mdi:menu" style="font-size: 1.5em;"></span>
+    </button>
+
+    <!-- 商品轮播区 -->
+    <section id="productCarouselSection" class="product-carousel-section">
+        <h2 class="intro-text">🌅 As the sun sets on one year, Sunrise Bakery is ready to rise and shine in 2024🌟
+Happy New Year to our wonderful customers and supporters. Thank you for making our bakery part of your celebrations. Here's to a year filled with sweet moments and delicious surprises!</h2>
+        <div class="carousel-wrapper">
+            <button class="carousel-btn prev-btn">&#10094;</button>
+            <div id="productCarousel" class="product-carousel">
+                <!-- 商品项 -->
+                <div class="product-item">
+                    <img src="product1.jpg" alt="Product 1">
+                </div>
+                <div class="product-item">
+                    <img src="product2.jpg" alt="Product 2">
+                </div>
+                <div class="product-item">
+                    <img src="product3.jpg" alt="Product 3">
+                </div>
+                <!-- 克隆的商品项，用于循环 -->
+                <div class="product-item">
+                    <img src="product4.jpg" alt="Product 4">
+                </div>
+                <div class="product-item">
+                    <img src="product5.jpg" alt="Product 5">
+                </div>
+                <div class="product-item">
+                    <img src="product6.jpg" alt="Product 6">
+                </div>
+                <div class="product-item">
+                    <img src="product7.jpg" alt="Product 7">
+                </div>				
+            </div>
+            <button class="carousel-btn next-btn">&#10095;</button>
+        </div>
     </section>
 
-    <!-- 商品圖片輪播 -->
-    <div class="carousel">
-        <div class="carousel-images">
-            <img src="product1.jpg" alt="Golden Croissant">
-            <img src="product2.jpg" alt="Classic Sourdough">
-            <img src="product3.jpg" alt="Blueberry Muffin">
-        </div>
-        <div class="carousel-buttons">
-            <button id="prevBtn">&#10094;</button>
-            <button id="nextBtn">&#10095;</button>
+    <!-- 分店卡片区 -->
+    <div class="carousel-container" id="carouselContainer">
+        <div class="carousel" id="carousel">
+            <!-- 分店卡片 -->
+            <div id="new-bedford" class="branch-card">
+                <h2>New Bedford Branch</h2>
+                <img src="newbedford.jpg" alt="New Bedford Branch" class="branch-image">
+                <div class="location">
+                    <p><span class="iconify" data-icon="mdi:map-marker" style="color: #fcb849;"></span> 506 Bolton Street, New Bedford, MA</p>
+                    <p><span class="iconify" data-icon="mdi:phone" style="color: #fcb849;"></span> <a href="tel:+15089976570">+1 508-997-6570</a></p>
+                </div>
+                <div class="hours">
+                    <p><strong>Hours:</strong></p>
+                    <p>Monday - Friday: 4:30 AM – 6:00 PM</p>
+                    <p>Saturday: 4:30 AM – 3:00 PM</p>
+                    <p>Sunday: 4:30 AM – 12:30 PM</p>
+                </div>
+                <h3>Menu</h3>
+                <div class="menu-gallery">
+                    <a href="newbedfordMenu.jpg" class="lightbox">
+                        <img src="newbedfordMenu.jpg" alt="New Bedford Menu" class="menu-image">
+                    </a>
+                </div>
+            </div>
+
+            <div id="dartmouth" class="branch-card">
+                <h2>Dartmouth Branch (Coming Soon)</h2>
+                <img src="Dartmouth.jpg" alt="Dartmouth Branch" class="branch-image">
+                <div class="location">
+                    <p><span class="iconify" data-icon="mdi:map-marker" style="color: #fcb849;"></span> 571 Dartmouth Street, Dartmouth, MA</p>
+                </div>
+                <h3>Menu</h3>
+                <div class="menu-gallery">
+                    <a href="DartmouthMenu1.jpg" class="lightbox">
+                        <img src="DartmouthMenu1.jpg" alt="Dartmouth Menu 1" class="menu-image">
+                    </a>
+                    <a href="DartmouthMenu2.jpg" class="lightbox">
+                        <img src="DartmouthMenu2.jpg" alt="Dartmouth Menu 2" class="menu-image">
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
-    <footer>
-        <p>Visit us at 123 Sunshine Blvd, or call (123) 456-7890</p>
-        <p>&copy; 2024 Sunrise Bakery. All rights reserved. No part of this website may be reproduced or copied without written permission.</p>
+    <!-- 底部 -->
+    <footer id="footer">
+        <p>&copy; 2016 - 2024 Sunrise Bakery & Coffee Shop, all rights reserved.</p>
     </footer>
 
+    <!-- SimpleLightbox JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.12.1/simple-lightbox.min.js"></script>
+
+    <!-- 自定义 JavaScript -->
     <script>
-        const images = document.querySelector('.carousel-images');
-        const totalImages = images.children.length;
-        let index = 0;
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化 SimpleLightbox
+            if (typeof SimpleLightbox !== 'undefined') {
+                var lightbox = new SimpleLightbox('.lightbox', {
+                    captions: true,
+                    captionsData: 'alt',
+                    captionDelay: 250
+                });
+            } else {
+                console.error("SimpleLightbox is not defined. Please check if the library was correctly loaded.");
+            }
 
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            index = (index + 1) % totalImages;
-            images.style.transform = `translateX(-${index * 100}%)`;
-        });
+            // 侧边栏收起功能
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const mainHeader = document.getElementById('mainHeader');
 
-        document.getElementById('prevBtn').addEventListener('click', () => {
-            index = (index - 1 + totalImages) % totalImages;
-            images.style.transform = `translateX(-${index * 100}%)`;
-        });
+            sidebarToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('hidden');
+                mainHeader.classList.toggle('expanded');
+                document.getElementById('carouselContainer').classList.toggle('expanded');
+                document.getElementById('productCarouselSection').classList.toggle('expanded');
+            });
 
-        // 禁用右鍵功能
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
+            // 商品轮播自动滚动
+            const carousel = document.getElementById('productCarousel');
+            const items = carousel.querySelectorAll('.product-item');
+            const itemCount = items.length / 2; // 原始商品数量
+            let currentIndex = 0;
+            let itemWidth;
+
+            function updateItemWidth() {
+                itemWidth = items[0].offsetWidth + parseInt(getComputedStyle(items[0]).marginRight);
+                // 重新设置 carousel 的宽度，以适应克隆的元素
+                carousel.style.width = `${itemWidth * items.length}px`;
+            }
+
+            window.addEventListener('resize', updateItemWidth);
+            updateItemWidth();
+
+            function scrollCarousel() {
+                currentIndex++;
+                if (currentIndex >= itemCount) {
+                    // 重置为初始状态
+                    carousel.style.transition = 'none';
+                    carousel.style.transform = 'translateX(0)';
+                    currentIndex = 1;
+                    // 强制重绘
+                    carousel.offsetHeight;
+                    carousel.style.transition = 'transform 0.5s ease-in-out';
+                    carousel.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+                } else {
+                    carousel.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+                }
+            }
+
+            // 设置自动滚动间隔
+            let scrollInterval = setInterval(scrollCarousel, 3000); // 每3秒滚动一次
+
+            // 鼠标悬停时暂停滚动
+            carousel.parentElement.addEventListener('mouseover', () => {
+                clearInterval(scrollInterval);
+            });
+
+            carousel.parentElement.addEventListener('mouseout', () => {
+                scrollInterval = setInterval(scrollCarousel, 3000);
+            });
+
+            // 添加按钮事件监听器
+            document.querySelector('.prev-btn').addEventListener('click', () => {
+                currentIndex--;
+                if (currentIndex < 0) {
+                    // 跳转到克隆的最后一个元素
+                    carousel.style.transition = 'none';
+                    carousel.style.transform = `translateX(-${itemCount * itemWidth}px)`;
+                    currentIndex = itemCount - 1;
+                    // 强制重绘
+                    carousel.offsetHeight;
+                    carousel.style.transition = 'transform 0.5s ease-in-out';
+                    carousel.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+                } else {
+                    carousel.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+                }
+            });
+
+            document.querySelector('.next-btn').addEventListener('click', () => {
+                scrollCarousel();
+            });
         });
     </script>
-
 </body>
 </html>
