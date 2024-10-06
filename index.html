@@ -321,6 +321,10 @@
                 left: 0;
             }
 
+            header .logo {
+                width: 60px;
+            }
+
             .carousel-container,
             .product-carousel-section {
                 margin-left: 20px;
@@ -334,34 +338,45 @@
 
             .sidebar-toggle {
                 top: 20px;
-                left: 20px;
+                left: auto;
+                right: 20px; /* 移动到右上角 */
                 display: block;
             }
 
-            /* 调整为显示2个卡片 */
+            /* 保持显示3个卡片 */
             .product-item {
-                width: 150px;
+                width: 120px; /* 调整为更小的宽度以适应3个卡片 */
             }
 
             .carousel-wrapper {
-                width: calc((150px + 20px) * 2 - 20px);
+                width: calc((120px + 20px) * 3 - 20px); /* 适应3个卡片 */
             }
         }
 
         @media (max-width: 480px) {
-            /* 调整为显示1个卡片 */
+            header .logo {
+                width: 50px;
+            }
+
+            /* 保持显示3个卡片 */
             .product-item {
-                width: 100px;
+                width: 100px; /* 进一步缩小以适应屏幕 */
             }
 
             .carousel-wrapper {
-                width: 100px;
+                width: calc((100px + 20px) * 3 - 20px); /* 适应3个卡片 */
             }
 
             /* 调整 h2 的样式 */
             .product-carousel-section h2.intro-text {
                 max-width: 90%;
                 padding: 0 10px;
+            }
+
+            .sidebar-toggle {
+                top: 20px;
+                left: auto;
+                right: 20px; /* 确保在移动设备上位于右上角 */
             }
         }
     </style>
@@ -477,6 +492,11 @@ Happy New Year to our wonderful customers and supporters. Thank you for making o
     <!-- 底部 -->
     <footer id="footer">
         <p>&copy; 2016 - 2024 Sunrise Bakery & Coffee Shop, all rights reserved.</p>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/profile.php?id=61554905052116" target="_blank" aria-label="Facebook">
+                <span class="iconify" data-icon="mdi:facebook" style="font-size: 1.5em; color: white;"></span>
+            </a>
+        </div>
     </footer>
 
     <!-- SimpleLightbox JS -->
@@ -511,7 +531,7 @@ Happy New Year to our wonderful customers and supporters. Thank you for making o
             // 商品轮播自动滚动
             const carousel = document.getElementById('productCarousel');
             const items = carousel.querySelectorAll('.product-item');
-            const itemCount = items.length / 2; // 原始商品数量
+            const itemCount = Math.floor(items.length / 2); // 原始商品数量
             let currentIndex = 0;
             let itemWidth;
 
