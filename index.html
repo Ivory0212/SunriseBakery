@@ -25,10 +25,8 @@
             background-color: #f8f8f8;
             color: #333;
             overflow-x: hidden;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
             user-select: none;
+            box-sizing: border-box;
         }
 
         /* 头部样式 */
@@ -36,14 +34,10 @@
             background-color: #fcb849;
             padding: 20px;
             text-align: center;
-            width: calc(100% - 250px); /* 修改为250px */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
+            width: calc(100% - 250px); /* 与侧边栏宽度一致 */
             position: fixed;
             top: 0;
-            left: 250px; /* 修改为250px */
+            left: 250px; /* 与侧边栏宽度一致 */
             z-index: 1000;
             transition: left 0.3s ease, width 0.3s ease;
             box-sizing: border-box;
@@ -54,20 +48,39 @@
             left: 0;
         }
 
-        header .logo {
-            width: 80px;
-            height: auto;
+        /* 新增的头部内容容器 */
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
 
-        header h1 {
+        .header-content .logo {
+            width: 80px;
+            height: auto;
+            flex-shrink: 0;
+        }
+
+        .header-content h1 {
             margin: 0;
             font-size: 2em;
             color: #333;
         }
 
+        .header-content .social-icons {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+		
+		.header-content .social-icons .iconify {
+			font-size: 1.5em; /* 确保图标大小为 1.5em */
+		}
+		
         /* 侧边栏样式 */
         .sidebar {
-            width: 250px; /* 确认侧边栏宽度为250px */
+            width: 250px;
             background-color: #2d2d2d;
             color: white;
             height: 100vh;
@@ -129,7 +142,7 @@
         /* 商品轮播区样式 */
         .product-carousel-section {
             padding: 160px 20px 20px; /* 增加顶部内边距，确保内容不被 header 遮挡 */
-            margin-left: 250px; /* 修改为与侧边栏一致 */
+            margin-left: 250px; /* 与侧边栏宽度一致 */
             transition: margin-left 0.3s ease;
         }
 
@@ -204,8 +217,8 @@
         .carousel-container {
             padding: 20px 20px 20px;
             position: relative;
-            width: calc(100% - 250px); /* 修改为250px */
-            margin-left: 250px; /* 修改为250px */
+            width: calc(100% - 250px);
+            margin-left: 250px;
             overflow-x: hidden;
             transition: margin-left 0.3s ease, width 0.3s ease;
         }
@@ -219,8 +232,8 @@
             display: flex;
             transition: transform 0.5s ease-in-out;
             gap: 20px;
-            justify-content: center; /* 使少量卡片也置中显示 */
-            flex-wrap: wrap; /* 让卡片内容根据可用空间换行 */
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .branch-card {
@@ -323,29 +336,31 @@
             header {
                 width: 100%;
                 left: 0;
-                flex-direction: column;
-                align-items: center;
                 padding: 20px;
             }
 
-            header .logo {
+            .header-content {
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .header-content .logo {
                 width: 60px;
             }
 
-            header h1 {
+            .header-content h1 {
                 font-size: 1.5em;
-                margin: 10px 0;
             }
 
-            .social-icons {
-                margin-top: 10px;
-            }
+			.header-content .social-icons .iconify {
+				font-size: 1.5em; /* 确保在小屏幕上也保持 1.5em */
+			}
 
             .product-carousel-section,
             .carousel-container {
                 margin-left: 0;
                 width: 100%;
-                padding: 160px 20px 20px; /* 调整顶部内边距，确保内容不被 header 遮挡 */
+                padding: 160px 20px 20px; /* 调整顶部内边距 */
             }
 
             .branch-card {
@@ -354,30 +369,39 @@
 
             /* 保持显示3个卡片 */
             .product-item {
-                width: 120px; /* 调整为更小的宽度以适应3个卡片 */
+                width: 120px;
             }
 
             .carousel-wrapper {
-                width: calc((120px + 20px) * 3 - 20px); /* 适应3个卡片 */
+                width: calc((120px + 20px) * 3 - 20px);
             }
+			
         }
 
         @media (max-width: 480px) {
-            header .logo {
+            .header-content .logo {
                 width: 50px;
             }
 
-            header h1 {
+            .header-content h1 {
                 font-size: 1.2em;
+            }
+
+			.header-content .social-icons .iconify {
+				font-size: 1.2em; /* 确保在小屏幕上也保持 1.5em */
+			}
+
+            .header-content {
+                gap: 5px;
             }
 
             /* 保持显示3个卡片 */
             .product-item {
-                width: 100px; /* 进一步缩小以适应屏幕 */
+                width: 100px;
             }
 
             .carousel-wrapper {
-                width: calc((100px + 20px) * 3 - 20px); /* 适应3个卡片 */
+                width: calc((100px + 20px) * 3 - 20px);
             }
 
             /* 调整 h2 的样式 */
@@ -392,15 +416,15 @@
 
     <!-- 头部 -->
     <header id="mainHeader">
-        <img src="sunrise-logo.png" alt="Sunrise Bakery Logo" class="logo">
-        <h1>Sunrise Bakery & Coffee Shop</h1>
-        <!-- 社交媒体图标 -->
-        <div class="social-icons">
-            <h1>
+        <div class="header-content">
+            <img src="sunrise-logo.png" alt="Sunrise Bakery Logo" class="logo">
+            <h1>Sunrise Bakery & Coffee Shop</h1>
+            <!-- 社交媒体图标 -->
+            <div class="social-icons">
                 <a href="https://www.facebook.com/profile.php?id=61554905052116" target="_blank" aria-label="Facebook">
                     <span class="iconify" data-icon="mdi:facebook" style="font-size: 1.5em; color: blue;"></span>
                 </a>
-            </h1>
+            </div>
         </div>
     </header>
 
