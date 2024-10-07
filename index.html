@@ -151,7 +151,7 @@
             margin-left: 20px;
         }
 
-        /* 限制 h2 文本宽度并居中 */
+        /* 限制 h3 文本宽度并居中 */
         .product-carousel-section h3.intro-text {
             max-width: 800px;
             margin: 0 auto 20px;
@@ -362,6 +362,7 @@
                 margin-left: 0;
                 width: 100%;
                 padding: 160px 20px 20px; /* 调整顶部内边距 */
+				margin-bottom: 10px; /* 减少底部外边距 */
             }
 
             .branch-card {
@@ -405,12 +406,17 @@
                 width: calc((100px + 20px) * 3 - 20px);
             }
 
-            /* 调整 h2 的样式 */
+            /* 调整 h3 的样式 */
             .product-carousel-section h3.intro-text {
                 max-width: 90%;
                 padding: 0 10px;
             }
-        }
+			
+			.product-carousel-section,
+			.carousel-container {
+			padding: 160px 15px 5px; /* 减少底部内边距 */
+			margin-bottom: 5px; /* 进一步减少底部外边距 */
+			}
     </style>
 </head>
 <body>
