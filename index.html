@@ -370,7 +370,10 @@
 			}
 			
 			.product-carousel-section {
-				padding-top: 100px; /* 确保顶部内边距足够，避免被 header 遮挡 */
+			    padding-top: calc(80px + 20px); /* 适应 header 的高度 */
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-bottom: 5px;
 			}
 
             .product-carousel-section,
@@ -382,6 +385,10 @@
 				margin-bottom: 5px; /* 减少底部外边距 */
             }
 
+			.product-carousel-section h3.intro-text {
+				padding-top: 80px; /* 在中等屏幕上调整顶部内边距 */
+			}
+			
             .branch-card {
                 width: 100%;
             }
@@ -396,7 +403,10 @@
             }
 			
 			.carousel-container {
-				padding: 40px 20px 10px; /* 保持减少的内边距 */
+				padding-top: 40px; /* 调整顶部内边距 */
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-bottom: 5px;
 			}
 			
         }
@@ -435,6 +445,7 @@
             .product-carousel-section h3.intro-text {
                 max-width: 90%;
                 padding: 0 10px;
+				padding-top: 60px; /* 在小屏幕上适当减少顶部内边距 */
             }
 			
 			.carousel-container {
