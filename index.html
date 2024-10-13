@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sunrise Bakery & Coffee Shop</title>
 	<!-- 引入 Google Fonts -->
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
-    
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+	
 	<!-- 添加 Favicon -->
     <link rel="icon" href="sunrise-logo.png" type="image/png">
 
@@ -21,7 +21,7 @@
     <style>
         /* 通用样式 */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Lato', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f8f8f8;
@@ -69,6 +69,7 @@
         }
 
         .header-content h1 {
+		    font-family: 'Lato', sans-serif;
             margin: 0;
             font-size: 2em;
             color: #333;
@@ -161,9 +162,10 @@
 
         /* 限制 h3 文本宽度并居中 */
         .product-carousel-section h3.intro-text {
-		    font-family: Arial, sans-serif; /* 保持与 .hours p 相同的字体 */
+			font-family: 'Lato', sans-serif; /* 使用 Lato 字体 */
 			font-weight: normal; /* 确保没有加粗 */
 			font-size: 1em; /* 调整为与 .hours p 相同的字体大小 */
+			color: #333;
             max-width: 800px;
             margin: 0 auto 20px;
             text-align: left;
@@ -255,6 +257,7 @@
         }
 
         .branch-card {
+			font-family: 'Lato', sans-serif; /* 使用 Lato 字体 */
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -267,10 +270,18 @@
         }
 
         .branch-card h2 {
+			font-weight: 700;
             color: #fcb849;
             font-size: 1.8em;
             margin-bottom: 15px;
         }
+
+		.branch-card .location p,
+		.branch-card .hours p {
+			font-weight: 400; /* 正常字体，不加粗 */
+			font-size: 1em;
+			line-height: 1.6;
+		}
 
         .branch-image {
             width: 100%;
