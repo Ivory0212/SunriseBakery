@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sunrise Bakery & Coffee Shop</title>
-
-    <!-- 添加 Favicon -->
+	<!-- 引入 Google Fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+    
+	<!-- 添加 Favicon -->
     <link rel="icon" href="sunrise-logo.png" type="image/png">
 
     <!-- SimpleLightbox CSS -->
@@ -159,6 +161,9 @@
 
         /* 限制 h3 文本宽度并居中 */
         .product-carousel-section h3.intro-text {
+		    font-family: Arial, sans-serif; /* 保持与 .hours p 相同的字体 */
+			font-weight: normal; /* 确保没有加粗 */
+			font-size: 1em; /* 调整为与 .hours p 相同的字体大小 */
             max-width: 800px;
             margin: 0 auto 20px;
             text-align: left;
@@ -417,7 +422,11 @@
             }
 
             .header-content h1 {
-                font-size: 1.2em;
+				font-size: 1.4em;
+				white-space: nowrap; /* 防止文本换行 */
+				font-family: 'Poppins', sans-serif; /* 使用凸显的字体 */
+				font-weight: bold;
+				letter-spacing: 0.05em; /* 增加字母间距 */
             }
 
 			.header-content .social-icons .iconify {
